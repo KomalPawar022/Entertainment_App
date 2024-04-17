@@ -6,21 +6,34 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState(null);
 
-  const signup = async (email, password) => {
-    const result = signupUser(email, password);
-    const data = result
-      .then((data) => {
-        setUser({ email: data.email });
-        isLoggedIn(true);
-        return data;
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-        setError(e.response.data);
-        console.log(error);
-        return e.response.data;
-      });
-    console.log(data);
+  const signup = async (getEmail, getPassword) => {
+    let error = null;
+    let email = null;
+    try {
+      const result = await signupUser(getEmail, getPassword);
+      email = result.email;
+    } catch (e) {
+      error = e.response.data;
+    }
+    setError(error);
+    console.log(error);
+    if (email) {
+      setUser({ email: email });
+      setIsLoggedIn(true);
+    }
+    // const data = result
+    //   .then((data) => {
+    //     setUser({ email: data.email });
+    //     isLoggedIn(true);
+    //     return data;
+    //   })
+    //   .catch((e) => {
+    //     console.log(e.response.data);
+    //     setError(e.response.data);
+    //     console.log(error);
+    //     return e.response.data;
+    //   });
+    // console.log(data);
     // if (data) {
     //   setUser({ email: data.email });
     //   isLoggedIn(true);

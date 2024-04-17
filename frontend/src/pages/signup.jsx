@@ -18,10 +18,11 @@ export default function SignUp() {
     if (password === repeatPassword) {
       try {
         toast.loading("Signing Up", { id: "signup" });
-        const data = await auth?.signup(email, password);
-        console.log("auth.error", auth);
-        if (auth.error) {
-          toast.error(auth.error, { id: "signup" });
+        await auth?.signup(email, password);
+        const error = await auth?.error;
+        console.log(error);
+        if (error) {
+          toast.error(error, { id: "signup" });
         }
         toast.success("Signed Up Successfully", { id: "signup" });
       } catch (e) {}
