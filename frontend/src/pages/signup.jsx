@@ -1,22 +1,35 @@
 import { Box, Typography } from "@mui/material";
-import { useRef } from "react";
+import { toast } from "react-hot-toast";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { MdMovie } from "react-icons/md";
+import { useAuth } from "../context/AuthContext";
 export default function SignUp() {
-  const inputRef = useRef();
-  function handleSignup(e) {
-    e.preventDefault();
-    // console.log(e.currentTarget);
-    const formData = new FormData(e.currentTarget);
-    console.log(formData);
+  const auth = useAuth();
 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
     const password = formData.get("password");
     const repeatPassword = formData.get("repeatPassword");
-  }
+    if (password === repeatPassword) {
+      try {
+        toast.loading("Signing Up", { id: "signup" });
+        const data = await auth?.signup(email, password);
+        console.log("auth.error", auth);
+        if (auth.error) {
+          toast.error(auth.error, { id: "signup" });
+        }
+        toast.success("Signed Up Successfully", { id: "signup" });
+      } catch (e) {}
+    } else {
+      console.log("in else");
+      toast.error("Both the Passwords should match", { id: "signup" });
+    }
+  };
   return (
     <Box
       sx={{
@@ -41,7 +54,6 @@ export default function SignUp() {
             rowGap: 2,
             width: "400px",
           }}
-          ref={inputRef}
         >
           {" "}
           <h1 style={{ textAlign: "left" }}>SignUp</h1>
