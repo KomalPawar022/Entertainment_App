@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     let email = null;
     try {
       const result = await signupUser(getEmail, getPassword);
-      email = result.email;
+      email = result.data.email;
     } catch (e) {
       error = e.response.data;
     }
@@ -28,7 +28,8 @@ export const AuthProvider = ({ children }) => {
     let email = null;
     try {
       const result = await userLogin(getEmail, getPassword);
-      email = result.email;
+
+      email = result.data.email;
     } catch (e) {
       error = e.response.data;
     }

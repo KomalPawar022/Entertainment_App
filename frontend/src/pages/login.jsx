@@ -3,16 +3,24 @@ import { toast } from "react-hot-toast";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import { red } from "@mui/material/colors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdMovie } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 export default function Login() {
+  const navigate = useNavigate();
   const auth = useAuth();
+
   useEffect(() => {
     if (auth.error) toast.error(auth.error, { id: "login" });
     auth.setError(null);
   }, [auth.error]);
+
+  useEffect(() => {
+    console.log(auth.user);
+    if (auth?.user) return navigate("/home");
+  }, [auth]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -62,6 +70,7 @@ export default function Login() {
             placeholder="Password"
             sx={{ color: "white" }}
             name="password"
+            type="password"
           />
           <Button
             variant="contained"

@@ -3,12 +3,13 @@ import { toast } from "react-hot-toast";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import { red } from "@mui/material/colors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdMovie } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 export default function SignUp() {
   const auth = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     if (auth.error) toast.error(auth.error, { id: "signup" });
     auth.setError(null);
@@ -25,9 +26,10 @@ export default function SignUp() {
         await auth?.signup(email, password);
 
         toast.success("Signed Up Successfully", { id: "signup" });
+
+        navigate("/home");
       } catch (e) {}
     } else {
-      console.log("in else");
       toast.error("Both the Passwords should match", { id: "signup" });
     }
   };
@@ -67,11 +69,13 @@ export default function SignUp() {
             placeholder="Password"
             sx={{ color: "white" }}
             name="password"
+            type="password"
           />
           <Input
             placeholder="Repeat Password"
             sx={{ color: "white" }}
             name="repeatPassword"
+            type="password"
           />
           <Button
             variant="contained"

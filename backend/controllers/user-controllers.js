@@ -29,7 +29,7 @@ const getAllUser = async (req, res, next) => {
   }
 };
 
-const userLogin = async (q, res, next) => {
+const userLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
