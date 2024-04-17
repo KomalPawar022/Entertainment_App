@@ -1,18 +1,19 @@
-import { Box } from "@mui/material";
+import { Box, Input, Avatar, Typography } from "@mui/material";
 import { MdMovie } from "react-icons/md";
 import { red } from "@mui/material/colors";
 import { PiSquaresFourFill } from "react-icons/pi";
 import { MdLocalMovies } from "react-icons/md";
 import { PiTelevisionBold } from "react-icons/pi";
 import { FaBookmark } from "react-icons/fa6";
-import { Avatar } from "@mui/material";
+
 const Home = () => {
   return (
     <Box
       sx={{
-        diaplay: "flex",
+        display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
+
         alignItems: "center",
         height: "100vh",
       }}
@@ -29,6 +30,7 @@ const Home = () => {
           justifyContent: "top",
           alignItems: "center",
           marginLeft: "25px",
+          justifySelf: "left",
         }}
       >
         <MdMovie
@@ -54,7 +56,17 @@ const Home = () => {
         />
         <Avatar sx={{ justifySelf: "bottom" }} />
       </Box>
-      <Box></Box>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "60vw" }}>
+        <Input
+          type="search"
+          placeholder="Search for Movies or TV Shows"
+          sx={{ color: "white" }}
+        />
+        <Box>
+          <Typography>Trending</Typography>
+          <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
+        </Box>
+      </Box>
     </Box>
   );
 };
