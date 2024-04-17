@@ -1,5 +1,5 @@
 import { useContext, createContext, useState } from "react";
-import { signupUser } from "../helpers/api-communicator";
+import { signupUser, userLogin } from "../helpers/api-communicator";
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (req, res) => {
+  const login = async (getEmail, getPassword) => {
     let error = null;
     let email = null;
     try {

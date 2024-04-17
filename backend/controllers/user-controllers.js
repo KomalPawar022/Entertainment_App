@@ -5,7 +5,7 @@ const userSignup = async (req, res, next) => {
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email: email });
-    
+
     if (existingUser) return res.status(401).send("User Already Exists");
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ email, password: hashedPassword });
@@ -29,20 +29,20 @@ const getAllUser = async (req, res, next) => {
   }
 };
 
-export const userLogin = async (q, res, next) => {
+const userLogin = async (q, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({"User not Registered"});
+      return res.status(404).send("User not Registered");
     }
-    const isPasswordCorrect = await bcrypt.compare(password,user.password)
-    if(!isPasswordCorrect){
-      return res.status("403").json({"Incorrect Password"});
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status("403").send("Incorrect Password");
     }
-    return res.status(200).json({message:"Ok",email:user.email})
+    return res.status(200).json({ message: "Ok", email: user.email });
   } catch (e) {
-    return res.status(200).json({message:"Error",cause:e.message});
+    return res.status(200).json({ message: "Error", cause: e.message });
   }
 };
-module.exports = { userSignup, getAllUser };
+module.exports = { userSignup, getAllUser, userLogin };
