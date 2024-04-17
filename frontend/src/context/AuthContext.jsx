@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       error = e.response.data;
     }
     setError(error);
-    console.log(error);
+
     if (email) {
       setUser({ email: email });
       setIsLoggedIn(true);

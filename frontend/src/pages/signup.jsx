@@ -6,9 +6,12 @@ import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { MdMovie } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 export default function SignUp() {
   const auth = useAuth();
-
+  useEffect(() => {
+    if (auth.error) toast.error(auth.error, { id: "signup" });
+  }, [auth.error]);
   const handleSignup = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -19,11 +22,7 @@ export default function SignUp() {
       try {
         toast.loading("Signing Up", { id: "signup" });
         await auth?.signup(email, password);
-        const error = await auth?.error;
-        console.log(error);
-        if (error) {
-          toast.error(error, { id: "signup" });
-        }
+
         toast.success("Signed Up Successfully", { id: "signup" });
       } catch (e) {}
     } else {
