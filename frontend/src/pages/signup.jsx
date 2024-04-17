@@ -11,6 +11,7 @@ export default function SignUp() {
   const auth = useAuth();
   useEffect(() => {
     if (auth.error) toast.error(auth.error, { id: "signup" });
+    auth.setError(null);
   }, [auth.error]);
   const handleSignup = async (e) => {
     e.preventDefault();

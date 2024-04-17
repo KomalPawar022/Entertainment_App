@@ -21,24 +21,25 @@ export const AuthProvider = ({ children }) => {
       setUser({ email: email });
       setIsLoggedIn(true);
     }
-    // const data = result
-    //   .then((data) => {
-    //     setUser({ email: data.email });
-    //     isLoggedIn(true);
-    //     return data;
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.response.data);
-    //     setError(e.response.data);
-    //     console.log(error);
-    //     return e.response.data;
-    //   });
-    // console.log(data);
-    // if (data) {
-    //   setUser({ email: data.email });
-    //   isLoggedIn(true);
-    // }
   };
+
+  const login = async (req, res) => {
+    let error = null;
+    let email = null;
+    try {
+      const result = await userLogin(getEmail, getPassword);
+      email = result.email;
+    } catch (e) {
+      error = e.response.data;
+    }
+    setError(error);
+
+    if (email) {
+      setUser({ email: email });
+      setIsLoggedIn(true);
+    }
+  };
+
   const value = {
     user,
     setUser,
@@ -47,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     error,
     setError,
+    login,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
