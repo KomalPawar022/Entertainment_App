@@ -1,10 +1,33 @@
-import { useContext, createContext, useState } from "react";
-import { signupUser, userLogin } from "../helpers/api-communicator";
+import { useContext, createContext, useState, useEffect } from "react";
+
+import {
+  signupUser,
+  userLogin,
+  getMovies,
+  InsertMovies,
+} from "../helpers/api-communicator";
+import data from "../data";
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [error, setError] = useState(null);
+  const [movies, setMovies] = useState(null);
+
+  useEffect(() => {
+    async function getMoviesfromDB() {
+      if (isLoggedIn) {
+        try {
+          const result = await getMovies();
+
+          setMovies(result.data.movies);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    getMoviesfromDB();
+  }, [isLoggedIn]);
 
   const signup = async (getEmail, getPassword) => {
     let error = null;
@@ -50,6 +73,8 @@ export const AuthProvider = ({ children }) => {
     error,
     setError,
     login,
+    movies,
+    setMovies,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

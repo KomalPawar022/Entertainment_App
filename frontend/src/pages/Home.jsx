@@ -1,24 +1,34 @@
 import { Box, Input, Avatar, Typography } from "@mui/material";
-import { MdMovie } from "react-icons/md";
-import { red } from "@mui/material/colors";
-import { PiSquaresFourFill } from "react-icons/pi";
-import { MdLocalMovies } from "react-icons/md";
-import { PiTelevisionBold } from "react-icons/pi";
-import { FaBookmark } from "react-icons/fa6";
+
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { IoSearch } from "react-icons/io5";
 
 const Home = () => {
+  // const auth = useAuth();
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (auth?.user === null) {
+  //     toast.error("Not Logged In", { id: "home access" });
+  //     navigate("/");
+  //   }
+  // }, []);
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-evenly",
-
+        justifyContent: "space-between",
+        gap: 2,
         alignItems: "center",
         height: "100vh",
+        width: "100vw",
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -55,17 +65,17 @@ const Home = () => {
           style={{ color: "#444657", width: "30px", height: "30px" }}
         />
         <Avatar sx={{ justifySelf: "bottom" }} />
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", width: "60vw" }}>
-        <Input
-          type="search"
-          placeholder="Search for Movies or TV Shows"
-          sx={{ color: "white" }}
-        />
-        <Box>
-          <Typography>Trending</Typography>
-          <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
-        </Box>
+      </Box> */}
+      <Box sx={{ display: "flex", flexDirection: "column", width: "100vw" }}>
+        <div style={{ display: "inline" }}>
+          <IoSearch />
+
+          <Input
+            type="search"
+            placeholder="Search for Movies or TV Shows"
+            sx={{ color: "white", width: "80%", justifySelf: "top" }}
+          />
+        </div>
       </Box>
     </Box>
   );
