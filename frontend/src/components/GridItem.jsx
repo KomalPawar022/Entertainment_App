@@ -13,7 +13,7 @@ const GridItem = ({ type }) => {
         ? auth?.movies?.map((item) => {
             return (
               <Grid>
-                <Tile key={item._id} item={item} />
+                <Tile key={item._id} item={item} type={type} />
               </Grid>
             );
           })
