@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     async function getMoviesfromDB() {
@@ -64,6 +65,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // const getMovieFromDB = async (getId) => {
+  //   let error = null;
+  //   let result=null;
+  //   try {
+  //     result = await getMovieById(getId);
+
+  //   } catch (e) {
+  //     error = e.response.data;
+  //   }
+  //   setError(error);
+  //   return result.data.movie;
+  // };
+
   const value = {
     user,
     setUser,
@@ -75,7 +89,10 @@ export const AuthProvider = ({ children }) => {
     login,
     movies,
     setMovies,
+    selectedOption,
+    setSelectedOption,
   };
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 export const useAuth = () => useContext(AuthContext);

@@ -16,7 +16,7 @@ export const userLogin = async (email, password) => {
 };
 
 export const getMovies = async () => {
-  const res = await axios.get("https://8wzvg3-8080.csb.app/api/v1/movie/");
+  const res = await axios.get("https://kdq7lq-8080.csb.app/api/v1/movie/");
   return res;
 };
 
@@ -48,6 +48,13 @@ export const InsertMovies = async (
       streamingAvailability,
       cast,
     },
+  );
+  return res;
+};
+export const getMovieById = async (id) => {
+  const res = await axios.post(
+    "https://kdq7lq-8080.csb.app/api/v1/movie/getMovieById",
+    { id },
   );
   return res;
 };

@@ -6,7 +6,10 @@ import { MdLocalMovies } from "react-icons/md";
 import { PiTelevisionBold } from "react-icons/pi";
 import { FaBookmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 export default function Header() {
+  const auth = useAuth();
+  console.log(auth?.selectedOption);
   return (
     <Box
       sx={{
@@ -33,18 +36,60 @@ export default function Header() {
         }}
       />
       <PiSquaresFourFill
-        style={{ color: "#444657", width: "30px", height: "30px" }}
+        style={{
+          color: "#444657",
+          width: "30px",
+          height: "30px",
+          cursor: "pointer",
+        }}
       />
       <Link to="/movies">
         <MdLocalMovies
-          style={{ color: "#444657", width: "30px", height: "30px" }}
+          style={
+            auth?.setSelectedOption === "movies"
+              ? {
+                  color: "white",
+                  width: "30px",
+                  height: "30px",
+                  cursor: "pointer",
+                }
+              : {
+                  color: "#444657",
+                  width: "30px",
+                  height: "30px",
+                  cursor: "pointer",
+                }
+          }
+          onClick={auth?.setSelectedOption("movies")}
         />
       </Link>
       <PiTelevisionBold
-        style={{ color: "#444657", width: "30px", height: "30px" }}
+        style={
+          auth?.setSelectedOption === "series"
+            ? {
+                color: "white",
+                width: "30px",
+                height: "30px",
+                cursor: "pointer",
+              }
+            : {
+                color: "#444657",
+                width: "30px",
+                height: "30px",
+                cursor: "pointer",
+              }
+        }
+        onClick={auth?.setSelectedOption("series")}
       />
-      <FaBookmark style={{ color: "#444657", width: "30px", height: "30px" }} />
-      <Avatar sx={{ justifySelf: "bottom" }} />
+      <FaBookmark
+        style={{
+          color: "#444657",
+          width: "30px",
+          height: "30px",
+          cursor: "pointer",
+        }}
+      />
+      <Avatar sx={{ justifySelf: "bottom", cursor: "pointer" }} />
     </Box>
   );
 }
