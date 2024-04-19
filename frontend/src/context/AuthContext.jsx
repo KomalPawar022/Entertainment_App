@@ -4,9 +4,11 @@ import {
   signupUser,
   userLogin,
   getMovies,
-  InsertMovies,
+  getSeries,
+  // InsertMovies,
+  // InsertSeries,
 } from "../helpers/api-communicator";
-import data from "../data";
+//import seriesData from "../seriesData";
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -14,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [series, setSeries] = useState(null);
 
   useEffect(() => {
     async function getMoviesfromDB() {
@@ -28,7 +31,61 @@ export const AuthProvider = ({ children }) => {
       }
     }
     getMoviesfromDB();
+
+    async function getSeriesfromDB() {
+      if (isLoggedIn) {
+        try {
+          const result = await getSeries();
+
+          setSeries(result.data.series);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    getSeriesfromDB();
   }, [isLoggedIn]);
+
+  //************** Used To Insert Data in DATABASE *******************
+  // useEffect(() => {
+  //   for (let i = 0; i < seriesData.length; i++) {
+  //     let title = seriesData[i].name;
+  //     let rating = seriesData[i].rating?.average;
+  //     let runtime = seriesData[i].runtime;
+  //     let released = seriesData[i].premiered;
+  //     let ended = seriesData[i].ended;
+  //     let schedule = seriesData[i].schedule;
+  //     let genre = seriesData[i].genres;
+  //     let synopsis = seriesData[i].summary;
+  //     let imageurl = seriesData[i].image?.original;
+  //     let language = seriesData[i].language;
+  //     let cast = [];
+  //     let type = seriesData[i].type;
+  //     let status = seriesData[i].status;
+  //     let url = seriesData[i].url;
+  //     try {
+  //       let res = InsertSeries(
+  //         title,
+  //         rating,
+  //         runtime,
+  //         released,
+  //         ended,
+  //         schedule,
+  //         genre,
+  //         synopsis,
+  //         imageurl,
+  //         language,
+  //         cast,
+  //         type,
+  //         status,
+  //         url,
+  //       );
+  //       console.log(res);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // }, []);
 
   const signup = async (getEmail, getPassword) => {
     let error = null;
@@ -65,19 +122,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // const getMovieFromDB = async (getId) => {
-  //   let error = null;
-  //   let result=null;
-  //   try {
-  //     result = await getMovieById(getId);
-
-  //   } catch (e) {
-  //     error = e.response.data;
-  //   }
-  //   setError(error);
-  //   return result.data.movie;
-  // };
-
   const value = {
     user,
     setUser,
@@ -91,6 +135,8 @@ export const AuthProvider = ({ children }) => {
     setMovies,
     selectedOption,
     setSelectedOption,
+    series,
+    setSeries,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

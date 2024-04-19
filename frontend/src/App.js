@@ -8,6 +8,7 @@ import Header from "./components/header";
 import { Box } from "@mui/material";
 import { useAuth } from "./context/AuthContext";
 import Details from "./pages/Details";
+import Series from "./pages/Series";
 
 function App() {
   const auth = useAuth();
@@ -29,8 +30,9 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/movies" element={<Movies />} />
+        <Route path="/series" element={<Series />} />
         <Route path="/" element={<SignUp />} />
-        <Route path="/Details/:id" element={<Details />} />
+        <Route path="/:type/Details/:id" element={<Details />} />
       </Routes>
     </Box>
   );

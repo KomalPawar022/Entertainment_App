@@ -9,13 +9,21 @@ const GridItem = ({ type }) => {
       rowSpacing={1}
       columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 4 }}
     >
-      {auth?.movies?.map((item) => {
-        return (
-          <Grid>
-            <Tile key={item._id} item={item} />
-          </Grid>
-        );
-      })}
+      {type === "movies"
+        ? auth?.movies?.map((item) => {
+            return (
+              <Grid>
+                <Tile key={item._id} item={item} />
+              </Grid>
+            );
+          })
+        : auth?.series?.map((item) => {
+            return (
+              <Grid>
+                <Tile key={item._id} item={item} type={type} />
+              </Grid>
+            );
+          })}
     </Grid>
   );
 };

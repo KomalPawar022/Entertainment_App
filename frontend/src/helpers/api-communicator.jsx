@@ -58,3 +58,54 @@ export const getMovieById = async (id) => {
   );
   return res;
 };
+
+export const InsertSeries = async (
+  title,
+  rating,
+  runtime,
+  released,
+  ended,
+  schedule,
+  genre,
+  synopsis,
+  imageurl,
+  language,
+  cast,
+  type,
+  status,
+  url,
+) => {
+  const res = await axios.post(
+    "https://kdq7lq-8080.csb.app/api/v1/series/addSeries",
+    {
+      title,
+      rating,
+      runtime,
+      released,
+      ended,
+      schedule,
+      genre,
+      synopsis,
+      imageurl,
+      language,
+      cast,
+      type,
+      status,
+      url,
+    },
+  );
+  return res;
+};
+
+export const getSeries = async () => {
+  const res = await axios.get("https://kdq7lq-8080.csb.app/api/v1/series/");
+  return res;
+};
+
+export const getSeriesById = async (id) => {
+  const res = await axios.post(
+    "https://kdq7lq-8080.csb.app/api/v1/series/getSeriesById",
+    { id },
+  );
+  return res;
+};

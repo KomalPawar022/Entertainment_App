@@ -2,29 +2,39 @@ import { Box } from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
-import { getMovieById } from "../helpers/api-communicator";
+import { getMovieById, getSeriesById } from "../helpers/api-communicator";
 const Details = () => {
   const [item, setItem] = useState(null);
   const auth = useAuth();
-  let { id } = useParams();
+  let { type, id } = useParams();
+  id = id.substring(1, id.length);
+  type = type.substring(1, type.length);
 
-  const getMovieFromDB = async (getId) => {
+  const getItemFromDB = async (getId) => {
     let error = null;
     let result = null;
     try {
-      result = await getMovieById(getId);
+      if (type === "movies") {
+        result = await getMovieById(getId);
+      } else {
+        result = await getSeriesById(getId);
+      }
+      console.log(result);
     } catch (e) {
       error = e.response.data;
     }
     auth?.setError(error);
-
-    setItem(result.data.movie);
+    if (type === "movies") {
+      setItem(result.data.movie);
+    } else {
+      setItem(result.data.series);
+    }
   };
 
   useEffect(() => {
-    getMovieFromDB(id);
+    getItemFromDB(id);
   }, []);
-  id = id.substring(1, id.length);
+
   return (
     <Box
       sx={{
@@ -58,7 +68,7 @@ const Details = () => {
           marginTop: "30px",
         }}
       >
-        <h1 style={{ textShadow: "2px 2px 5px white" }}>{item?.title}</h1>
+        <h1>{item?.title}</h1>
         <h2>{item?.imdbrating}</h2>
         <Box
           sx={{
@@ -143,7 +153,7 @@ const Details = () => {
             </p>
           </Box>
           <Box style={{ display: "flex", flexDirection: "row" }}>
-            {item?.streamingAvailability.map((item) => {
+            {item?.streamingAvailability?.map((item) => {
               return (
                 // <Link to={item.url}>
                 <a href={item.url} target="_blank">

@@ -2,9 +2,9 @@ import { Box } from "@mui/material";
 import LazyLoad from "react-lazyload";
 import { Link } from "react-router-dom";
 import { FaRegBookmark } from "react-icons/fa";
-const Tile = ({ item }) => {
+const Tile = ({ type, item }) => {
   return (
-    <Link to={`/Details/:${item._id}`}>
+    <Link to={`/:${type}/Details/:${item._id}`}>
       <Box
         sx={{
           display: "flex",
@@ -15,8 +15,7 @@ const Tile = ({ item }) => {
           minHeight: "400px",
           minWidth: "280px",
           // border: "solid 1px white",
-          width: "20vw",
-          height: "20vh",
+
           // margin: "10px",
           paddingLeft: "3px",
           justifyContent: "center",
@@ -43,8 +42,18 @@ const Tile = ({ item }) => {
           >
             <FaRegBookmark style={{ justifySelf: "center" }} />
           </div>
-          <LazyLoad key={item.imageurl} placeholder={<span>Loading...</span>}>
-            <img src={item.imageurl} alt="Image description" />
+          <LazyLoad
+            key={item.imageurl ? item.imageurl : "default_image.png"}
+            placeholder={<span>Loading...</span>}
+          >
+            <img
+              src={
+                item.imageurl.length > 0 ? item.imageurl : "default_image.png"
+              }
+              alt="Image description"
+              style={{ height: "300px", width: "180px" }}
+              onerror="this.src='default_image.png'"
+            />
           </LazyLoad>
         </div>
         <p styles={{ margin: "0px" }}>{item.released} - Movie</p>
