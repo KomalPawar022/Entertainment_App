@@ -91,3 +91,12 @@ export const getSeriesById = async (id) => {
   const res = await axios.post("/series/getSeriesById", { id });
   return res;
 };
+
+export const InsertNameandPicture = async (email, name, picture) => {
+  const res = await axios.put("/user/addNameandPicture", {
+    email,
+    name,
+    picture,
+  });
+  return res;
+};

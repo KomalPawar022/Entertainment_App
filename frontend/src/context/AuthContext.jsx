@@ -5,6 +5,7 @@ import {
   userLogin,
   getMovies,
   getSeries,
+  InsertNameandPicture,
   // InsertMovies,
   // InsertSeries,
 } from "../helpers/api-communicator";
@@ -122,6 +123,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const InsertNameAndPictureInDB = async (name, picture) => {
+    let msg = null;
+    try {
+      const result = await InsertNameandPicture(user.email, name, picture);
+      // console.log(result);
+      msg = result.data.message;
+    } catch (e) {
+      console.log(e);
+    }
+    return msg;
+  };
+
   const value = {
     user,
     setUser,
@@ -137,6 +150,7 @@ export const AuthProvider = ({ children }) => {
     setSelectedOption,
     series,
     setSeries,
+    InsertNameAndPictureInDB,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

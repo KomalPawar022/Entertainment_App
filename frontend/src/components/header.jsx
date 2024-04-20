@@ -63,24 +63,26 @@ export default function Header() {
           onClick={auth?.setSelectedOption("movies")}
         />
       </Link>
-      <PiTelevisionBold
-        style={
-          auth?.setSelectedOption === "series"
-            ? {
-                color: "white",
-                width: "30px",
-                height: "30px",
-                cursor: "pointer",
-              }
-            : {
-                color: "#444657",
-                width: "30px",
-                height: "30px",
-                cursor: "pointer",
-              }
-        }
-        onClick={auth?.setSelectedOption("series")}
-      />
+      <Link to="/series">
+        <PiTelevisionBold
+          style={
+            auth?.setSelectedOption === "series"
+              ? {
+                  color: "white",
+                  width: "30px",
+                  height: "30px",
+                  cursor: "pointer",
+                }
+              : {
+                  color: "#444657",
+                  width: "30px",
+                  height: "30px",
+                  cursor: "pointer",
+                }
+          }
+          onClick={auth?.setSelectedOption("series")}
+        />
+      </Link>
       <FaBookmark
         style={{
           color: "#444657",
@@ -89,7 +91,9 @@ export default function Header() {
           cursor: "pointer",
         }}
       />
-      <Avatar sx={{ justifySelf: "bottom", cursor: "pointer" }} />
+      <Link to="/settings">
+        <Avatar sx={{ justifySelf: "bottom", cursor: "pointer" }} />
+      </Link>
     </Box>
   );
 }

@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+
+const express = require("express");
+
 const userSignup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -45,4 +48,34 @@ const userLogin = async (req, res, next) => {
     return res.status(200).json({ message: "Error", cause: e.message });
   }
 };
-module.exports = { userSignup, getAllUser, userLogin };
+
+const addName = async (req, res, next) => {
+  try {
+    const { email, name, picture } = req.body;
+
+    let { id } = await User.findOne({ email });
+    console.log(id);
+    const user = await User.findByIdAndUpdate(
+      id,
+      { name: name },
+      { upsert: true, new: true },
+    );
+    return res.status(200).json({ message: "Ok", user: user });
+  } catch (e) {
+    return res.status(200).json({ message: "Error", cause: e.message });
+  }
+};
+
+const addPicture = async (req, res, next) => {
+  console.log("in request");
+  const { picture } = req.body;
+  if (req.picture) {
+    // Check if image file was uploaded
+    console.log("Image uploaded successfully:", req.picture.filename);
+    res.json({ message: "Image uploaded successfully!" });
+  } else {
+    console.error("Error uploading image");
+    res.status(400).json({ message: "Error uploading image" });
+  }
+};
+module.exports = { userSignup, getAllUser, userLogin, addName, addPicture };
