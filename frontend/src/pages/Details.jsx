@@ -40,16 +40,26 @@ const Details = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: { md: "row", xs: "column" },
         justifyContent: "top",
         gap: 4,
         paddingLeft: "30px",
         height: "100vh",
         width: "90vw",
-        overflow: "scroll",
+        overflowX: "scroll",
+        overflowY: "none",
+        flex: 1,
       }}
     >
-      <Box sx={{ marginTop: "30px", width: "auto", height: "auto" }}>
+      <Box
+        sx={{
+          marginTop: "30px",
+          width: "auto",
+          height: "auto",
+          display: "flex",
+          flex: 1,
+        }}
+      >
         {" "}
         {item && item.imageurl.length > 0 ? (
           <img
@@ -92,19 +102,46 @@ const Details = () => {
             marginTop: "30px",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "row", gap: 6 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+          <Box
+            sx={{
+              display: { lg: "flex", md: "inline-block", sm: "flex" },
+              flexDirection: { md: "row", xs: "column" },
+              gap: 6,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1px",
+                marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+              }}
+            >
               <h3 style={{ color: "#444657" }}>Length</h3>
               <h3>
                 {item?.runtime}
                 {type === "series" ? " min" : null}
               </h3>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1px",
+                marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+              }}
+            >
               <h3 style={{ color: "#444657" }}>Language</h3>
               <h3>{item?.language}</h3>
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1px",
+                marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+              }}
+            >
               <h3 style={{ color: "#444657" }}>
                 {type === "movies" ? "Year" : "Released"}
               </h3>
@@ -112,7 +149,12 @@ const Details = () => {
             </Box>
             {type === "series" ? (
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "1px" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1px",
+                  marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+                }}
               >
                 <h3 style={{ color: "#444657" }}>Ended</h3>
                 <h3>{item?.ended ? item.ended : "N/A"}</h3>
@@ -121,7 +163,12 @@ const Details = () => {
 
             {type === "series" ? (
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "1px" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1px",
+                  marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+                }}
               >
                 <h3 style={{ color: "#444657" }}>Type</h3>
                 <h3>{item?.type ? item.type : "N/A"}</h3>
@@ -130,7 +177,12 @@ const Details = () => {
 
             {type === "series" ? (
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "1px" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1px",
+                  marginBottom: { md: 2, lg: 0, xs: 2, sm: 0 },
+                }}
               >
                 <h3 style={{ color: "#444657" }}>Status</h3>
                 <h3>{item?.status ? item.status : "N/A"}</h3>
