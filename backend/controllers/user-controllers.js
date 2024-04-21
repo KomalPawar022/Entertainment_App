@@ -1,8 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-
 const express = require("express");
-
+let upload;
 const userSignup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -52,7 +51,7 @@ const userLogin = async (req, res, next) => {
 const addName = async (req, res, next) => {
   try {
     const { email, name, picture } = req.body;
-
+    console.log(picture);
     let { id } = await User.findOne({ email });
     console.log(id);
     const user = await User.findByIdAndUpdate(
@@ -67,10 +66,20 @@ const addName = async (req, res, next) => {
 };
 
 const addPicture = async (req, res, next) => {
-  console.log("in request");
+  console.log(req);
   const { picture } = req.body;
+
+  const multer = require("multer");
+  const path = require("path");
+  const storage = multer.diskStorage({
+    destination: "./uploads/",
+    filename: picture.name,
+  });
+
+  upload = multer({ storage: storage });
+  upload.single(picture);
+
   if (req.picture) {
-    // Check if image file was uploaded
     console.log("Image uploaded successfully:", req.picture.filename);
     res.json({ message: "Image uploaded successfully!" });
   } else {
@@ -78,4 +87,11 @@ const addPicture = async (req, res, next) => {
     res.status(400).json({ message: "Error uploading image" });
   }
 };
-module.exports = { userSignup, getAllUser, userLogin, addName, addPicture };
+module.exports = {
+  userSignup,
+  getAllUser,
+  userLogin,
+  addName,
+  addPicture,
+  upload,
+};

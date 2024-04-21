@@ -93,10 +93,23 @@ export const getSeriesById = async (id) => {
 };
 
 export const InsertNameandPicture = async (email, name, picture) => {
-  const res = await axios.put("/user/addNameandPicture", {
+  const res1 = await axios.put("/user/addName", {
     email,
     name,
-    picture,
   });
-  return res;
+  picture.email = email;
+  console.log(picture);
+  const res2 = await axios.post(
+    "/user/upload-image",
+    {
+      picture,
+    },
+    {
+      headers: {
+        "Content-Type": "multipart/file", // Specify content type
+      },
+    },
+  );
+
+  return { res1, res2 };
 };
