@@ -6,6 +6,7 @@ import {
   getMovies,
   getSeries,
   InsertNameandPicture,
+  AddBookmark,
   // InsertMovies,
   // InsertSeries,
 } from "../helpers/api-communicator";
@@ -13,7 +14,7 @@ import {
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -90,49 +91,59 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (getEmail, getPassword) => {
     let error = null;
-    let email = null;
+    let user = null;
     try {
       const result = await signupUser(getEmail, getPassword);
-      email = result.data.email;
+      user = result.data.user;
     } catch (e) {
       error = e.response.data;
     }
     setError(error);
 
-    if (email) {
-      setUser({ email: email });
+    if (user) {
+      setUser(user);
       setIsLoggedIn(true);
     }
   };
 
   const login = async (getEmail, getPassword) => {
     let error = null;
-    let email = null;
+    let user = null;
     try {
       const result = await userLogin(getEmail, getPassword);
 
-      email = result.data.email;
+      user = result.data.user;
     } catch (e) {
       error = e.response.data;
     }
     setError(error);
 
-    if (email) {
-      setUser({ email: email });
+    if (user) {
+      setUser(user);
       setIsLoggedIn(true);
     }
   };
 
   const InsertNameAndPictureInDB = async (name, picture) => {
-    let msg = null;
+    let result = null;
     try {
-      const result = await InsertNameandPicture(user.email, name, picture);
+      result = await InsertNameandPicture(user.email, name, picture);
       // console.log(result);
-      msg = result.data.message;
+      console.log(result);
     } catch (e) {
       console.log(e);
     }
-    return msg;
+    return result;
+  };
+
+  const AddBookmarkInDB = async (bookmark) => {
+    let result = null;
+    try {
+      result = await AddBookmark(user._id, bookmark);
+    } catch (e) {
+      console.log(e);
+    }
+    return result;
   };
 
   const value = {
@@ -151,6 +162,7 @@ export const AuthProvider = ({ children }) => {
     series,
     setSeries,
     InsertNameAndPictureInDB,
+    AddBookmarkInDB,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

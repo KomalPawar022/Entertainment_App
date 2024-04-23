@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import Tile from "./Tile";
 const GridItem = ({ type }) => {

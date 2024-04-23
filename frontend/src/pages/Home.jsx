@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
 
 const Home = () => {
+  //*************Uncomment Afterwards */
   // const auth = useAuth();
   // const navigate = useNavigate();
   // useEffect(() => {
@@ -66,7 +67,7 @@ const Home = () => {
         />
         <Avatar sx={{ justifySelf: "bottom" }} />
       </Box> */}
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100vw" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "90vw" }}>
         <div style={{ display: "inline" }}>
           <IoSearch />
 

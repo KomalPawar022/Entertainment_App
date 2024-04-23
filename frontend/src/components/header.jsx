@@ -83,14 +83,16 @@ export default function Header() {
           onClick={auth?.setSelectedOption("series")}
         />
       </Link>
-      <FaBookmark
-        style={{
-          color: "#444657",
-          width: "30px",
-          height: "30px",
-          cursor: "pointer",
-        }}
-      />
+      <Link to="/bookmark">
+        <FaBookmark
+          style={{
+            color: "#444657",
+            width: "30px",
+            height: "30px",
+            cursor: "pointer",
+          }}
+        />
+      </Link>
       <Link to="/settings">
         <Avatar sx={{ justifySelf: "bottom", cursor: "pointer" }} />
       </Link>

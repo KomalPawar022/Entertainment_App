@@ -8,34 +8,32 @@ import { MdMovie } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 
+// /project/Entertainment_App/backend/uploads/1713704688856-IMG_20240218_201215_375.jpg
 export default function Settings() {
   const auth = useAuth();
   const navigate = useNavigate();
+
   const [img, setImg] = useState(null);
   useEffect(() => {
     if (auth.error) toast.error(auth.error, { id: "signup" });
     auth.setError(null);
   }, [auth.error]);
 
-  // async function getUrl(img) {
-  //   let url;
-  //   const reader = new FileReader();
-  //   if (img != null) {
-  //     reader.readAsDataURL(img);
-
-  //     reader.addEventListener("load", () => {
-  //       url = reader.result;
-  //       setImg(url);
-  //     });
-  //   }
-  // }
+  useEffect(() => {
+    console.log(process.env.BACKEND_URL);
+    let imgPath = "https://kdq7lq-8080.csb.app/" + auth?.user?.picture;
+    console.log(imgPath);
+    setImg(imgPath);
+    console.log("img", img);
+  }, []);
 
   const handleSave = async (e) => {
+    toast.loading("Saving Data", { id: "save data" });
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name");
     console.log(img);
-    // const photo = formData.get("photo");
+
     try {
       const result = auth?.InsertNameAndPictureInDB(name, img);
       console.log(result);
@@ -74,7 +72,12 @@ export default function Settings() {
         >
           {" "}
           <h1 style={{ textAlign: "left" }}>Settings</h1>
-          <Input placeholder="Name" sx={{ color: "white" }} name="name" />
+          <Input
+            placeholder="Name"
+            sx={{ color: "white" }}
+            name="name"
+            value={auth?.user?.name}
+          />
           <p style={{ fontWeight: "bold" }}>Photo</p>
           <Input
             placeholder="Photo"
@@ -83,6 +86,7 @@ export default function Settings() {
             type="file"
             onChange={(e) => setImg(e.target.files[0])}
           />
+          {img ? <img src={img} alt="Uploaded Image" /> : null}
           <Button
             variant="contained"
             sx={{ backgroundColor: red[400] }}

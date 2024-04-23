@@ -92,24 +92,32 @@ export const getSeriesById = async (id) => {
   return res;
 };
 
-export const InsertNameandPicture = async (email, name, picture) => {
+export const InsertNameandPicture = async (email, name, image) => {
   const res1 = await axios.put("/user/addName", {
     email,
     name,
   });
-  picture.email = email;
-  console.log(picture);
+
   const res2 = await axios.post(
     "/user/upload-image",
     {
-      picture,
+      image,
+      email,
     },
     {
       headers: {
-        "Content-Type": "multipart/file", // Specify content type
+        "Content-Type": "multipart/form-data", // Specify content type
       },
     },
   );
 
   return { res1, res2 };
+};
+
+export const AddBookmark = async (id, bookmark) => {
+  const res = await axios.put("/user/addBookmark", {
+    id,
+    bookmark,
+  });
+  return res;
 };
