@@ -106,7 +106,7 @@ export const InsertNameandPicture = async (email, name, image) => {
     },
     {
       headers: {
-        "Content-Type": "multipart/form-data", // Specify content type
+        "Content-Type": "multipart/form-data", 
       },
     },
   );

@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
-axios.defaults.baseURL = "https://kdq7lq-8080.csb.app/api/v1";
+axios.defaults.baseURL = "https://4zvwrt-8080.csb.app/api/v1";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

@@ -11,49 +11,69 @@ const Bookmarks = () => {
   const [series, setSeries] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const getBookmarkedMovies = async (getId) => {
-    let error = null;
-    let result = null;
-    try {
-      result = await getMovieById(getId);
-    } catch (e) {
-      error = e;
-      console.log(e);
-    }
-    auth?.setError(error);
-    const temp = movies;
+  // const getBookmarkedMovies = async (getId) => {
+  //   let error = null;
+  //   let result = null;
+  //   try {
+  //     result = await getMovieById(getId);
+  //   } catch (e) {
+  //     error = e;
+  //     console.log(e);
+  //   }
+  //   auth?.setError(error);
+  //   const temp = movies;
 
-    temp.push(result.data.movie);
-    console.log("temp", temp);
-    setMovies(temp);
-  };
-  console.log("movies", movies);
-  const getBookmarkedSeries = async (getId) => {
-    let error = null;
-    let result = null;
-    try {
-      result = await getSeriesById(getId);
-    } catch (e) {
-      error = e;
-      console.log(e);
-    }
-    auth?.setError(error);
-    const temp = series;
+  //   temp.push(result.data.movie);
+  //   console.log("temp", temp);
+  //   setMovies(temp);
+  // };
+  // console.log("movies", movies);
+  // console.log("series", series);
+  // const getBookmarkedSeries = async (getId) => {
+  //   let error = null;
+  //   let result = null;
+  //   try {
+  //     result = await getSeriesById(getId);
+  //   } catch (e) {
+  //     error = e;
+  //     console.log(e);
+  //   }
+  //   auth?.setError(error);
+  //   const temp = series;
 
-    temp.push(result.data.series);
+  //   temp.push(result.data.series);
 
-    setSeries(temp);
-  };
+  //   setSeries(temp);
+  // };
 
   useEffect(() => {
-    if (isLoaded) {
-      auth?.user?.bookmarks.map((item) => {
-        if (item?.type === "movies") getBookmarkedMovies(item.id);
-      });
-      // auth?.user?.bookmarks.map((item) => {
-      //   if (item?.type === "series") getBookmarkedMovies(item.id);
-      //   console.log(item);
-      // });
+    if (!isLoaded) {
+    
+      let temp=[];
+      auth?.user?.bookmarks.map((item)=>{
+      
+        console.log(item);
+        auth?.movies.map((movieItem)=>{
+          if(movieItem._id===item.id){
+            temp.push(movieItem);
+          }
+        })
+       
+    })
+    setMovies(temp);
+    temp=[];
+    auth?.user?.bookmarks.map((item)=>{
+     
+      console.log(item);
+      auth?.series.map((seriesItem)=>{
+        if(seriesItem._id===item.id){
+          temp.push(seriesItem);
+        }
+      })
+     
+  
+  })
+  setSeries(temp);
       setIsLoaded(true);
     }
   }, []);
@@ -93,15 +113,15 @@ const Bookmarks = () => {
             ? movies.map((item) => {
                 return (
                   <Grid>
-                    <Tile type={"movies"} item={item} />
+                    <Tile type={"movies"} item={item} bookmark={true} />
                   </Grid>
                 );
               })
-            : null}
+            : <h5 styles={{ margin: "2px" }}>Movie not Bookmarked</h5>}
         </Grid>
       </Box>
 
-      {/* <Box
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -122,13 +142,13 @@ const Bookmarks = () => {
             ? series.map((item) => {
                 return (
                   <Grid>
-                    <Tile type={"series"} item={item} />
+                    <Tile type={"series"} item={item}  bookmark={true}/>
                   </Grid>
                 );
               })
-            : null}
+            : <h5 styles={{ margin: "2px" }}>Series Not Bookmarked</h5>}
         </Grid>
-      </Box> */}
+      </Box>
     </Box>
   );
 };

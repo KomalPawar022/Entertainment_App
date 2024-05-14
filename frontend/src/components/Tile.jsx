@@ -5,7 +5,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 
-const Tile = ({ type, item }) => {
+const Tile = ({ type, item,bookmark,isBookmarked }) => {
   const auth = useAuth();
   const handleAddBookmark = async () => {
     let bookmark = {
@@ -23,6 +23,7 @@ const Tile = ({ type, item }) => {
     console.log(result);
   };
 
+console.log("isBookmarked",isBookmarked);
   return (
     <Box
       sx={{
@@ -42,7 +43,9 @@ const Tile = ({ type, item }) => {
         color: "white",
       }}
     >
+   
       <div style={{ position: "relative", width: "auto", height: "auto" }}>
+      {bookmark?null:
         <div
           style={{
             display: "flex",
@@ -61,7 +64,7 @@ const Tile = ({ type, item }) => {
           onClick={handleAddBookmark}
         >
           <FaRegBookmark style={{ justifySelf: "center" }} />
-        </div>
+        </div>}
         <LazyLoad
           key={item.imageurl ? item.imageurl : "default_image.png"}
           placeholder={<span>Loading...</span>}
