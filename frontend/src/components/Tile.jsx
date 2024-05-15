@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 import LazyLoad from "react-lazyload";
 import { Link } from "react-router-dom";
-import { FaRegBookmark } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 
-const Tile = ({ type, item,bookmark,isBookmarked }) => {
+const Tile = ({ type, item, bookmark }) => {
   const auth = useAuth();
   const handleAddBookmark = async () => {
     let bookmark = {
@@ -21,9 +21,18 @@ const Tile = ({ type, item,bookmark,isBookmarked }) => {
       toast.error("Couldn't save Bookmark", { id: "bookmark" });
     }
     console.log(result);
+
+    let movies = auth?.movies;
+    for (let movie of movies) {
+      if (item._id === movie._id) {
+        movie.isBookmarked = true;
+        break;
+      }
+    }
+    auth?.setMovies(movies);
   };
 
-console.log("isBookmarked",isBookmarked);
+  console.log(item.isBookmarked);
   return (
     <Box
       sx={{
@@ -34,37 +43,38 @@ console.log("isBookmarked",isBookmarked);
         height: "auto",
         minHeight: "400px",
         minWidth: "280px",
-        // border: "solid 1px white",
-
-        // margin: "10px",
         paddingLeft: "3px",
         justifyContent: "center",
         alignItems: "center",
         color: "white",
       }}
     >
-   
       <div style={{ position: "relative", width: "auto", height: "auto" }}>
-      {bookmark?null:
-        <div
-          style={{
-            display: "flex",
-            position: "absolute",
-            width: "23px",
-            height: "23px",
-            right: "2px",
-            top: "2px",
-            justifyContent: "center",
-            alignItems: "center",
-            border: "solid 1px white",
-            borderRadius: 10,
-            backgroundColor: "rgba(128, 128, 128, 0.5)",
-            cursor: "pointer",
-          }}
-          onClick={handleAddBookmark}
-        >
-          <FaRegBookmark style={{ justifySelf: "center" }} />
-        </div>}
+        {bookmark ? null : (
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              width: "23px",
+              height: "23px",
+              right: "2px",
+              top: "2px",
+              justifyContent: "center",
+              alignItems: "center",
+              border: "solid 1px white",
+              borderRadius: 10,
+              backgroundColor: "rgba(128, 128, 128, 0.5)",
+              cursor: "pointer",
+            }}
+            onClick={handleAddBookmark}
+          >
+            {item.isBookmarked ? (
+              <FaBookmark style={{ justifySelf: "center", color: "yellow" }} />
+            ) : (
+              <FaRegBookmark style={{ justifySelf: "center" }} />
+            )}
+          </div>
+        )}
         <LazyLoad
           key={item.imageurl ? item.imageurl : "default_image.png"}
           placeholder={<span>Loading...</span>}

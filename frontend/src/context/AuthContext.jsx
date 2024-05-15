@@ -25,8 +25,28 @@ export const AuthProvider = ({ children }) => {
       if (isLoggedIn) {
         try {
           const result = await getMovies();
+          let moviesData = result.data.movies;
 
-          setMovies(result.data.movies);
+          let moviesData1 = [];
+
+          moviesData.forEach((movie) => {
+            user.bookmarks.map((item) => {
+              if (movie._id === item.id) {
+                movie.isBookmarked = true;
+              }
+            });
+
+            // let bookmarks=user.bookmarks;
+            // for(let i=0;i<bookmarks.lenght;i++){
+            //   if(movie._id === bookmarks[i].id)
+            //     {
+            //       movie.isBookmarked = true;
+            //       break;
+            //     }
+            // }
+          });
+          console.log("moviesData", moviesData);
+          setMovies(moviesData);
         } catch (e) {
           console.log(e);
         }
@@ -47,6 +67,8 @@ export const AuthProvider = ({ children }) => {
     }
     getSeriesfromDB();
   }, [isLoggedIn]);
+
+  console.log("movies", movies);
 
   //************** Used To Insert Data in DATABASE *******************
   // useEffect(() => {

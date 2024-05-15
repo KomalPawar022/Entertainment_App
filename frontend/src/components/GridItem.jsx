@@ -4,7 +4,7 @@ import { useState } from "react";
 import Tile from "./Tile";
 const GridItem = ({ type }) => {
   const auth = useAuth();
-  const [IsBookmarked,setIsBookmarked]=useState(false);
+
   return (
     <Grid
       container
@@ -15,21 +15,7 @@ const GridItem = ({ type }) => {
         ? auth?.movies?.map((item) => {
             return (
               <Grid>
-{/*                
-                {
-                  auth?.user?.bookmarks.map((bookmarkedItem)=>{
-                    console.log(bookmarkedItem)
-                    if(item._id===bookmarkedItem.id)
-                      {
-                      setIsBookmarked(true)
-                      }
-                        else{
-                         setIsBookmarked(false);
-                        }
-                      
-                  })
-                } */}
-               <Tile key={item._id} item={item} type={type} isBookmarked={IsBookmarked}/>
+               <Tile key={item._id} item={item} type={type}/>
               </Grid>
             );
           })
