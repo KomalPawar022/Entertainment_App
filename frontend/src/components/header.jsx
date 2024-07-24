@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 export default function Header() {
   const auth = useAuth();
-  console.log(auth?.selectedOption);
+
   return (
     <Box
       sx={{
@@ -35,14 +35,16 @@ export default function Header() {
           marginTop: "5px",
         }}
       />
-      <PiSquaresFourFill
-        style={{
-          color: "#444657",
-          width: "30px",
-          height: "30px",
-          cursor: "pointer",
-        }}
-      />
+      <Link to="/home">
+        <PiSquaresFourFill
+          style={{
+            color: "#444657",
+            width: "30px",
+            height: "30px",
+            cursor: "pointer",
+          }}
+        />
+      </Link>
       <Link to="/movies">
         <MdLocalMovies
           style={

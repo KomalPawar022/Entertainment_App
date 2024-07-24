@@ -106,7 +106,7 @@ export const InsertNameandPicture = async (email, name, image) => {
     },
     {
       headers: {
-        "Content-Type": "multipart/form-data", 
+        "Content-Type": "multipart/form-data",
       },
     },
   );
@@ -119,5 +119,16 @@ export const AddBookmark = async (id, bookmark) => {
     id,
     bookmark,
   });
+  return res;
+};
+
+export const removeBookmark = async (id, bookmarkId) => {
+  const res = await axios.post("/user/removeBookmark", {
+    id,
+    bookmarkId,
+  });
+  console.log("from api-communicator");
+  console.log("id: ", id);
+  console.log("bookmarkId: ", bookmarkId);
   return res;
 };

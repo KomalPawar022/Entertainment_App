@@ -7,6 +7,7 @@ const {
   addName,
   addPicture,
   addBookmark,
+  removeBookmark,
 } = require("../controllers/user-controllers");
 
 const upload = require("../controllers/upload");
@@ -17,5 +18,6 @@ userRoutes.get("/", getAllUser);
 userRoutes.put("/addName", addName);
 userRoutes.post("/upload-image", upload.single("image"), addPicture);
 userRoutes.put("/addBookmark", addBookmark);
+userRoutes.post("/removeBookmark", removeBookmark);
 
 module.exports = userRoutes;

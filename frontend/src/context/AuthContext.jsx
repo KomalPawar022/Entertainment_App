@@ -7,6 +7,7 @@ import {
   getSeries,
   InsertNameandPicture,
   AddBookmark,
+  removeBookmark,
   // InsertMovies,
   // InsertSeries,
 } from "../helpers/api-communicator";
@@ -27,25 +28,14 @@ export const AuthProvider = ({ children }) => {
           const result = await getMovies();
           let moviesData = result.data.movies;
 
-          let moviesData1 = [];
-
           moviesData.forEach((movie) => {
             user.bookmarks.map((item) => {
               if (movie._id === item.id) {
                 movie.isBookmarked = true;
               }
             });
-
-            // let bookmarks=user.bookmarks;
-            // for(let i=0;i<bookmarks.lenght;i++){
-            //   if(movie._id === bookmarks[i].id)
-            //     {
-            //       movie.isBookmarked = true;
-            //       break;
-            //     }
-            // }
           });
-          console.log("moviesData", moviesData);
+
           setMovies(moviesData);
         } catch (e) {
           console.log(e);
@@ -59,7 +49,17 @@ export const AuthProvider = ({ children }) => {
         try {
           const result = await getSeries();
 
-          setSeries(result.data.series);
+          let seriesData = result.data.series;
+          let seriesData1 = [];
+          seriesData.forEach((series) => {
+            user.bookmarks.map((item) => {
+              if (series._id === item.id) {
+                series.isBookmarked = true;
+              }
+            });
+          });
+
+          setSeries(seriesData);
         } catch (e) {
           console.log(e);
         }
@@ -67,8 +67,6 @@ export const AuthProvider = ({ children }) => {
     }
     getSeriesfromDB();
   }, [isLoggedIn]);
-
-  console.log("movies", movies);
 
   //************** Used To Insert Data in DATABASE *******************
   // useEffect(() => {
@@ -151,7 +149,6 @@ export const AuthProvider = ({ children }) => {
     try {
       result = await InsertNameandPicture(user.email, name, picture);
       // console.log(result);
-      console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -162,6 +159,17 @@ export const AuthProvider = ({ children }) => {
     let result = null;
     try {
       result = await AddBookmark(user._id, bookmark);
+    } catch (e) {
+      console.log(e);
+    }
+    return result;
+  };
+
+  const RemoveBookmarkFromDB = async (bookmarkId) => {
+    let result = null;
+
+    try {
+      result = await removeBookmark(user._id, bookmarkId);
     } catch (e) {
       console.log(e);
     }
@@ -185,6 +193,7 @@ export const AuthProvider = ({ children }) => {
     setSeries,
     InsertNameAndPictureInDB,
     AddBookmarkInDB,
+    RemoveBookmarkFromDB,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -17,7 +17,6 @@ export default function Login() {
   }, [auth.error]);
 
   useEffect(() => {
-    console.log(auth.user);
     if (auth?.user) return navigate("/home");
   }, [auth]);
 
@@ -43,9 +42,17 @@ export default function Login() {
         height: "100vh",
         flexDirection: "column",
         rowGap: 5,
+        width: "100vw",
+      }}
+      style={{
+        backgroundImage: 'url("wallpaper1.png")',
+        backgroundSize: "contain",
+        objectFit: "contain",
+        backgroundPosition: "center center",
+        backdropFilter: 'blur("1px")',
       }}
     >
-      <MdMovie style={{ color: red[400], width: "30px", height: "30px" }} />
+      {/* <MdMovie style={{ color: red[400], width: "30px", height: "30px" }} /> */}
       <form onSubmit={(e) => handleLogin(e)}>
         <Box
           sx={{
@@ -54,7 +61,7 @@ export default function Login() {
             backgroundColor: "#191B34",
             borderRadius: 3,
             flexDirection: "column",
-            padding: 2,
+            padding: 4,
             rowGap: 2,
             width: "400px",
           }}

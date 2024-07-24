@@ -42,6 +42,13 @@ export default function SignUp() {
         height: "100vh",
         flexDirection: "column",
         rowGap: 5,
+        width: "100vw",
+      }}
+      style={{
+        backgroundImage: 'url("wallpaper1.png")',
+        backgroundSize: "contain",
+        objectFit: "contain",
+        backgroundPosition: "center center",
       }}
     >
       <MdMovie style={{ color: red[400], width: "30px", height: "30px" }} />

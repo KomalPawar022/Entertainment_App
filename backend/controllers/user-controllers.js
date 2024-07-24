@@ -97,6 +97,27 @@ const addBookmark = async (req, res, next) => {
   }
 };
 
+const removeBookmark = async (req, res, next) => {
+  try {
+    const { id, bookmarkId } = req.body;
+
+    const user = await User.findById(id);
+    // let index = user.bookmarks.indexOf(bookmarkId);
+    // console.log(index);
+    // user.bookmarks.splice(index, 1);
+    console.log(user.bookmarks);
+    user.bookmarks = user.bookmarks.filter((item) => {
+      if (item.id !== bookmarkId) return item;
+      else console.log(item);
+    });
+    console.log(user.bookmarks);
+    user.save();
+    return res.status(200).json({ message: "Ok" });
+  } catch (e) {
+    return res.status(200).json({ message: "Error", cause: e.message });
+  }
+};
+
 module.exports = {
   userSignup,
   getAllUser,
@@ -105,4 +126,5 @@ module.exports = {
   addPicture,
   upload,
   addBookmark,
+  removeBookmark,
 };

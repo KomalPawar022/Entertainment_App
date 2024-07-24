@@ -8,3 +8,25 @@
   padding: 0;
   box-sizing: border-box;
 }
+.slider {
+  height: 250px;
+  margin: "auto";
+  position: relative;
+  width: 90%;
+  display: grid;
+  place-items: center;
+}
+
+.slide-track {
+  display: "flex";
+  flex-direction: row;
+  width: calc(250px * 10);
+}
+
+.slide {
+  height: 200px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}

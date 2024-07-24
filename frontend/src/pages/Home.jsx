@@ -3,19 +3,29 @@ import { Box, Input, Avatar, Typography } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
 const Home = () => {
-  //*************Uncomment Afterwards */
-  // const auth = useAuth();
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (auth?.user === null) {
-  //     toast.error("Not Logged In", { id: "home access" });
-  //     navigate("/");
-  //   }
-  // }, []);
+  const [trending, setTrending] = useState([]);
+  const auth = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (auth?.user === null) {
+      toast.error("Not Logged In", { id: "home access" });
+      navigate("/");
+    }
+
+    let temp = [];
+
+    auth?.movies?.map((item) => {
+      if (item.imdbrating >= 7.5) {
+        temp.push(item);
+      }
+    });
+
+    setTrending(temp);
+  }, []);
 
   return (
     <Box
@@ -68,7 +78,7 @@ const Home = () => {
         <Avatar sx={{ justifySelf: "bottom" }} />
       </Box> */}
       <Box sx={{ display: "flex", flexDirection: "column", width: "90vw" }}>
-        <div style={{ display: "inline" }}>
+        <div style={{ display: "inline", alignItems: "start" }}>
           <IoSearch />
 
           <Input
@@ -76,6 +86,26 @@ const Home = () => {
             placeholder="Search for Movies or TV Shows"
             sx={{ color: "white", width: "80%", justifySelf: "top" }}
           />
+        </div>
+        <h3>Trending</h3>
+        <div style={{ display: "flex" }}>
+          {trending.length > 0
+            ? trending.map((item) => {
+                return (
+                  <div>
+                    {/* <div
+                        style={{
+                          backgroundImage: `url(${item.imageurl})`,
+                          backgroundSize: "cover",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                      ></div> */}
+                    <img src={item.imageurl} style={{ width: "100%" }} />
+                  </div>
+                );
+              })
+            : console.log("In else")}
         </div>
       </Box>
     </Box>
