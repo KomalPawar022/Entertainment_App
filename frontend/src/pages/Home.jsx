@@ -17,14 +17,13 @@ const Home = () => {
     }
 
     let temp = [];
-
     auth?.movies?.map((item) => {
       if (item.imdbrating >= 7.5) {
         temp.push(item);
       }
     });
-
     setTrending(temp);
+    console.log(trending);
   }, []);
 
   return (
@@ -92,7 +91,7 @@ const Home = () => {
           {trending.length > 0
             ? trending.map((item) => {
                 return (
-                  <div>
+                  <div key={item.id}>
                     {/* <div
                         style={{
                           backgroundImage: `url(${item.imageurl})`,

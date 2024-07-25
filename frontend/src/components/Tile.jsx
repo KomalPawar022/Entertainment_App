@@ -5,7 +5,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Tile = ({ type, item, bookmark = false }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -78,6 +78,7 @@ const Tile = ({ type, item, bookmark = false }) => {
       auth?.setSeries(series);
 
       item.isBookmarked = false;
+
       console.log("Inside remove function", item.isBookmarked);
       toast.success("Bookmark Removed", { id: "bookmark" });
     } catch (e) {
@@ -85,7 +86,10 @@ const Tile = ({ type, item, bookmark = false }) => {
     }
     console.log(result);
   };
-
+  useEffect(() => {
+    if (item.isBookmarked) setIsBookmarked(true);
+    else setIsBookmarked(false);
+  }, []);
   console.log("Outside remove function", item.isBookmarked);
   return (
     <Box
@@ -104,8 +108,7 @@ const Tile = ({ type, item, bookmark = false }) => {
       }}
     >
       <div style={{ position: "relative", width: "auto", height: "auto" }}>
-        {bookmark ? // </div> //   /> //     style={{ justifySelf: "center", color: "white" }} //   <RiDeleteBin6Line // > //   onClick={handleRemoveBookmark} //   }} //     cursor: "pointer", //     backgroundColor: "rgba(128, 128, 128, 0.5)", //     borderRadius: 15, //     border: "solid 1px white", //     alignItems: "center", //     justifyContent: "center", //     top: "2px", //     right: "2px", //     height: "30px", //     width: "30px", //     position: "absolute", //     display: "flex", //   style={{ // <div
-        null : (
+        {bookmark ? null : ( // </div> //   /> //     style={{ justifySelf: "center", color: "white" }} //   <RiDeleteBin6Line // > //   onClick={handleRemoveBookmark} //   }} //     cursor: "pointer", //     backgroundColor: "rgba(128, 128, 128, 0.5)", //     borderRadius: 15, //     border: "solid 1px white", //     alignItems: "center", //     justifyContent: "center", //     top: "2px", //     right: "2px", //     height: "30px", //     width: "30px", //     position: "absolute", //     display: "flex", //   style={{ // <div
           <div
             style={{
               display: "flex",
@@ -125,7 +128,7 @@ const Tile = ({ type, item, bookmark = false }) => {
               item.isBookmarked ? handleRemoveBookmark : handleAddBookmark
             }
           >
-            {item.isBookmarked ? (
+            {isBookmarked ? (
               <FaHeart style={{ justifySelf: "center", color: "red" }} />
             ) : (
               <FaRegHeart style={{ justifySelf: "center", color: "white" }} />
