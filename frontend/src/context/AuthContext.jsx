@@ -20,8 +20,12 @@ export const AuthProvider = ({ children }) => {
   const [movies, setMovies] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [series, setSeries] = useState(null);
+  const [trending, setTrending] = useState([]);
+  const [recommend, setRecommend] = useState([]);
 
   useEffect(() => {
+    var temp = [];
+    var temp2 = [];
     async function getMoviesfromDB() {
       if (isLoggedIn) {
         try {
@@ -32,6 +36,12 @@ export const AuthProvider = ({ children }) => {
             user.bookmarks.map((item) => {
               if (movie._id === item.id) {
                 movie.isBookmarked = true;
+              }
+              if (movie.imdbrating >= 7.5) {
+                temp.push(movie);
+              }
+              if (movie.released.toString().substring(0, 4) >= 2020) {
+                temp2.push(movie);
               }
             });
           });
@@ -56,6 +66,13 @@ export const AuthProvider = ({ children }) => {
               if (series._id === item.id) {
                 series.isBookmarked = true;
               }
+
+              if (series.rating >= 6.5) {
+                temp.push(series);
+              }
+              if (series.released.toString().substring(0, 4) >= 2020) {
+                temp2.push(series);
+              }
             });
           });
 
@@ -66,6 +83,10 @@ export const AuthProvider = ({ children }) => {
       }
     }
     getSeriesfromDB();
+    setTrending(temp);
+    setRecommend(temp2);
+    console.log("temp2 from context", temp2);
+    console.log("recommend from context", recommend);
   }, [isLoggedIn]);
 
   //************** Used To Insert Data in DATABASE *******************
@@ -194,6 +215,8 @@ export const AuthProvider = ({ children }) => {
     InsertNameAndPictureInDB,
     AddBookmarkInDB,
     RemoveBookmarkFromDB,
+    trending,
+    recommend,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

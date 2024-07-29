@@ -1,7 +1,8 @@
 #root {
   background-color: #11121b;
-  height: 100vh;
+  height: "100vh";
   color: white;
+  overflow: scroll;
 }
 * {
   margin: 0;

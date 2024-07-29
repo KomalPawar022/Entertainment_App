@@ -22,8 +22,9 @@ export default function Header() {
         height: "80vh",
         justifyContent: "top",
         alignItems: "center",
-        marginLeft: "25px",
+        left: "25px",
         justifySelf: "left",
+        position: "fixed",
       }}
     >
       <MdMovie

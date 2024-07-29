@@ -6,12 +6,14 @@ const Movies = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "top",
+        justifyContent: "start",
         gap: 2,
-        paddingLeft: "30px",
+        paddingLeft: "50px",
+        paddingTop: "20px",
         height: "100vh",
         width: "90vw",
         overflow: "scroll",
+        alignItems: "center",
       }}
     >
       <h1 styles={{ margin: "2px" }}>Movies</h1>

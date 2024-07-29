@@ -48,32 +48,26 @@ const Bookmarks = () => {
 
   useEffect(() => {
     if (!isLoaded) {
-    
-      let temp=[];
-      auth?.user?.bookmarks.map((item)=>{
-      
+      let temp = [];
+      auth?.user?.bookmarks.map((item) => {
         console.log(item);
-        auth?.movies.map((movieItem)=>{
-          if(movieItem._id===item.id){
+        auth?.movies.map((movieItem) => {
+          if (movieItem._id === item.id) {
             temp.push(movieItem);
           }
-        })
-       
-    })
-    setMovies(temp);
-    temp=[];
-    auth?.user?.bookmarks.map((item)=>{
-     
-      console.log(item);
-      auth?.series.map((seriesItem)=>{
-        if(seriesItem._id===item.id){
-          temp.push(seriesItem);
-        }
-      })
-     
-  
-  })
-  setSeries(temp);
+        });
+      });
+      setMovies(temp);
+      temp = [];
+      auth?.user?.bookmarks.map((item) => {
+        console.log(item);
+        auth?.series.map((seriesItem) => {
+          if (seriesItem._id === item.id) {
+            temp.push(seriesItem);
+          }
+        });
+      });
+      setSeries(temp);
       setIsLoaded(true);
     }
   }, []);
@@ -83,12 +77,13 @@ const Bookmarks = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "top",
+        justifyContent: "center",
         gap: 2,
         paddingLeft: "30px",
         height: "100vh",
         width: "90vw",
-        overflow: "scroll",
+        paddingTop: "20px",
+        alignItems: "center",
       }}
     >
       <Box
@@ -101,6 +96,7 @@ const Bookmarks = () => {
           height: "auto",
           width: "100vw",
           marginTop: "10px",
+          alignItems: "center",
         }}
       >
         <h1 styles={{ margin: "2px" }}>Bookmarked Movies</h1>
@@ -108,16 +104,23 @@ const Bookmarks = () => {
           container
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          {movies.length > 0
-            ? movies.map((item) => {
-                return (
-                  <Grid>
-                    <Tile type={"movies"} item={item} bookmark={true} />
-                  </Grid>
-                );
-              })
-            : <h5 styles={{ margin: "2px" }}>Movie not Bookmarked</h5>}
+          {movies.length > 0 ? (
+            movies.map((item) => {
+              return (
+                <Grid>
+                  <Tile type={"movies"} item={item} bookmark={true} />
+                </Grid>
+              );
+            })
+          ) : (
+            <h5 styles={{ margin: "2px" }}>Movie not Bookmarked</h5>
+          )}
         </Grid>
       </Box>
 
@@ -126,6 +129,7 @@ const Bookmarks = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          alignItems: "center",
           gap: 2,
           paddingLeft: "30px",
           height: "auto",
@@ -137,16 +141,23 @@ const Bookmarks = () => {
           container
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          {series.length > 0
-            ? series.map((item) => {
-                return (
-                  <Grid>
-                    <Tile type={"series"} item={item}  bookmark={true}/>
-                  </Grid>
-                );
-              })
-            : <h5 styles={{ margin: "2px" }}>Series Not Bookmarked</h5>}
+          {series.length > 0 ? (
+            series.map((item) => {
+              return (
+                <Grid>
+                  <Tile type={"series"} item={item} bookmark={true} />
+                </Grid>
+              );
+            })
+          ) : (
+            <h5 styles={{ margin: "2px" }}>Series Not Bookmarked</h5>
+          )}
         </Grid>
       </Box>
     </Box>
