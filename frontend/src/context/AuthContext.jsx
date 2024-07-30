@@ -22,71 +22,87 @@ export const AuthProvider = ({ children }) => {
   const [series, setSeries] = useState(null);
   const [trending, setTrending] = useState([]);
   const [recommend, setRecommend] = useState([]);
+  const [moviesTitles, setMoviesTitles] = useState([]);
+  const [seriesTitles, setSeriesTitles] = useState([]);
+
+  async function getMoviesfromDB() {
+    var tempTrending = trending;
+    var tempRecommend = recommend;
+    let titles = [];
+    if (isLoggedIn) {
+      console.log("isLoggedIn", isLoggedIn);
+      try {
+        const result = await getMovies();
+        let moviesData = result.data.movies;
+
+        moviesData.forEach((movie) => {
+          user.bookmarks.map((item) => {
+            if (movie._id === item.id) {
+              movie.isBookmarked = true;
+            }
+          });
+          if (movie.imdbrating >= 7.5) {
+            tempTrending.push(movie);
+          }
+          if (movie.released.toString().substring(0, 4) >= 2020) {
+            tempRecommend.push(movie);
+          }
+          titles.push(movie.title);
+          movie.type = "movies";
+        });
+
+        setMovies(moviesData);
+        setMoviesTitles(titles);
+        setTrending(tempTrending);
+        setRecommend(tempRecommend);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  async function getSeriesfromDB() {
+    var tempTrending = trending;
+    var tempRecommend = recommend;
+    let titles = [];
+    if (isLoggedIn) {
+      console.log("isLoggedIn", isLoggedIn);
+      try {
+        const result = await getSeries();
+
+        let seriesData = result.data.series;
+
+        seriesData.forEach((series) => {
+          user.bookmarks.map((item) => {
+            if (series._id === item.id) {
+              series.isBookmarked = true;
+            }
+          });
+          if (series.rating >= 6.5) {
+            tempTrending.push(series);
+          }
+          if (series.released.toString().substring(0, 4) >= 2020) {
+            tempRecommend.push(series);
+          }
+          titles.push(series.title);
+          series.type = "series";
+        });
+
+        setSeriesTitles(titles);
+        setTrending(tempTrending);
+        setRecommend(tempRecommend);
+        setSeries(seriesData);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   useEffect(() => {
-    var temp = [];
-    var temp2 = [];
-    async function getMoviesfromDB() {
-      if (isLoggedIn) {
-        try {
-          const result = await getMovies();
-          let moviesData = result.data.movies;
-
-          moviesData.forEach((movie) => {
-            user.bookmarks.map((item) => {
-              if (movie._id === item.id) {
-                movie.isBookmarked = true;
-              }
-              if (movie.imdbrating >= 7.5) {
-                temp.push(movie);
-              }
-              if (movie.released.toString().substring(0, 4) >= 2020) {
-                temp2.push(movie);
-              }
-            });
-          });
-
-          setMovies(moviesData);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }
+    console.log(1);
     getMoviesfromDB();
-
-    async function getSeriesfromDB() {
-      if (isLoggedIn) {
-        try {
-          const result = await getSeries();
-
-          let seriesData = result.data.series;
-          let seriesData1 = [];
-          seriesData.forEach((series) => {
-            user.bookmarks.map((item) => {
-              if (series._id === item.id) {
-                series.isBookmarked = true;
-              }
-
-              if (series.rating >= 6.5) {
-                temp.push(series);
-              }
-              if (series.released.toString().substring(0, 4) >= 2020) {
-                temp2.push(series);
-              }
-            });
-          });
-
-          setSeries(seriesData);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }
+    console.log(2);
     getSeriesfromDB();
-    setTrending(temp);
-    setRecommend(temp2);
-    console.log("temp2 from context", temp2);
-    console.log("recommend from context", recommend);
   }, [isLoggedIn]);
 
   //************** Used To Insert Data in DATABASE *******************
@@ -217,6 +233,8 @@ export const AuthProvider = ({ children }) => {
     RemoveBookmarkFromDB,
     trending,
     recommend,
+    moviesTitles,
+    seriesTitles,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

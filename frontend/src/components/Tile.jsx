@@ -79,7 +79,6 @@ const Tile = ({ type, item, bookmark = false }) => {
 
       item.isBookmarked = false;
 
-      console.log("Inside remove function", item.isBookmarked);
       toast.success("Bookmark Removed", { id: "bookmark" });
     } catch (e) {
       toast.error("Couldn't save Bookmark", { id: "bookmark" });
@@ -90,7 +89,7 @@ const Tile = ({ type, item, bookmark = false }) => {
     if (item.isBookmarked) setIsBookmarked(true);
     else setIsBookmarked(false);
   }, []);
-  console.log("Outside remove function", item.isBookmarked);
+
   return (
     <Box
       sx={{

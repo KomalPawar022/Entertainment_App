@@ -43,7 +43,7 @@ const Details = () => {
         flexDirection: { md: "row", xs: "column" },
         justifyContent: "top",
         gap: 4,
-        paddingLeft: "30px",
+        paddingLeft: "100px",
         height: "100vh",
         width: "90vw",
         overflowX: "scroll",

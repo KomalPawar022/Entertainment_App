@@ -2,7 +2,7 @@ import { Box, Input, Avatar, Typography } from "@mui/material";
 
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import Carousel from "react-multi-carousel";
@@ -129,42 +129,46 @@ const Home = () => {
         >
           {auth?.trending?.map((item) => {
             return (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <Link to={`/:${item.type}/Details/:${item._id}`}>
                 <div
-                  key={item.id}
                   style={{
-                    backgroundImage: `url(${item.imageurl})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center center",
-                    height: "330px",
-                    width: "230px",
                     display: "flex",
-                    alignItems: "end",
                     justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <div
+                    key={item.id}
                     style={{
-                      backgroundColor: "rgba(0,0,0,0.6)",
+                      backgroundImage: `url(${item.imageurl})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center center",
+                      height: "330px",
+                      width: "230px",
                       display: "flex",
+                      alignItems: "end",
                       justifyContent: "center",
-                      alignSelf: "end",
-                      padding: "10px",
-                      width: "100%",
-                      flexDirection: "column",
                     }}
                   >
-                    <h6>{item.released.toString().substring(0, 4)}</h6>
-                    <h4>{item.title}</h4>
+                    <div
+                      style={{
+                        backgroundColor: "rgba(0,0,0,0.6)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignSelf: "end",
+                        padding: "10px",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <h6 style={{ color: "white" }}>
+                        {item.released.toString().substring(0, 4)}
+                      </h6>
+                      <h4 style={{ color: "white" }}>{item.title}</h4>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </Carousel>
@@ -185,13 +189,31 @@ const Home = () => {
             icon={<SpeedDialIcon />}
             direction={"left"}
           >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-              />
-            ))}
+            <SpeedDialAction
+              key={"Settings"}
+              icon={
+                <Link to="/settings">
+                  <IoSettingsSharp />
+                </Link>
+              }
+              tooltipTitle={"Settings"}
+            />
+
+            <SpeedDialAction
+              key={"Share"}
+              icon={<FaShareAlt />}
+              tooltipTitle={"Share"}
+            />
+
+            <SpeedDialAction
+              key={"Logout"}
+              icon={
+                <Link to="/">
+                  <RiLogoutCircleRLine />
+                </Link>
+              }
+              tooltipTitle={"Logout"}
+            />
           </StyledSpeedDial>
         </Box>
       </Box>
@@ -221,46 +243,50 @@ const Home = () => {
         >
           {auth?.recommend?.map((item) => {
             return (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {item?.imageurl.length > 0}
+              <Link to={`/:${item.type}/Details/:${item._id}`}>
                 <div
-                  key={item.id}
                   style={{
-                    backgroundImage:
-                      item?.imageurl.length > 0
-                        ? `url(${item.imageurl})`
-                        : `url('default_image.png')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center center",
-                    height: "330px",
-                    width: "230px",
                     display: "flex",
-                    alignItems: "end",
                     justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
+                  {item?.imageurl.length > 0}
                   <div
+                    key={item.id}
                     style={{
-                      backgroundColor: "rgba(0,0,0,0.6)",
+                      backgroundImage:
+                        item?.imageurl.length > 0
+                          ? `url(${item.imageurl})`
+                          : `url('default_image.png')`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center center",
+                      height: "330px",
+                      width: "230px",
                       display: "flex",
+                      alignItems: "end",
                       justifyContent: "center",
-                      alignSelf: "end",
-                      padding: "10px",
-                      width: "100%",
-                      flexDirection: "column",
                     }}
                   >
-                    <h6>{item.released.toString().substring(0, 4)}</h6>
-                    <h4>{item.title}</h4>
+                    <div
+                      style={{
+                        backgroundColor: "rgba(0,0,0,0.6)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignSelf: "end",
+                        padding: "10px",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <h6 style={{ color: "white" }}>
+                        {item.released.toString().substring(0, 4)}
+                      </h6>
+                      <h4 style={{ color: "white" }}>{item.title}</h4>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </Carousel>
